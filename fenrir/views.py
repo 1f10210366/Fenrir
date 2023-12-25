@@ -4,23 +4,38 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView
 
 
-import requests 
+import requests as req
 from .models import Restaurant
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
+
 class TopView(TemplateView):
-    template_name = "fenrir/seach_input.html"
-
-
+    template_name = "fenrir/search_input.html"
+    
 class SearchResultsView(TemplateView):
-    template_name = "fenrir/seach_result.html"
+    template_name = "fenrir/search_results.html"
 
-class restaurant_detailView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        # ユーザーの現在地を取得
+        user_location = get_user_location(request)
+
+        # レストランデータを取得
+        restaurants = get_restaurant_data(user_location)
+
+        # ページネーションを適用
+        paginated_restaurants = paginate_restaurants(request, restaurants)
+
+        # テンプレートにデータを渡してレンダリング
+        context = {
+            'restaurants': paginated_restaurants,
+        }
+        return render(request, self.template_name, context)
+
+
+class RestaurantDetailView(TemplateView):
     template_name = "fenrir/restaurant_detail.html"
-
-
 
 
 
@@ -41,9 +56,8 @@ def get_user_location(request):
 
 
 def get_restaurant_data(user_location, radius=500):
-   
     api_key = '7699907c06980421'
-    endpoint = 'https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=sample&large_area=Z011'
+    endpoint = 'https://webservice.recruit.co.jp/hotpepper/gourmet/v1/'
 
     params = {
         'key': api_key,
@@ -53,41 +67,31 @@ def get_restaurant_data(user_location, radius=500):
         'format': 'json',
     }
 
-    response = requests.get(endpoint, params=params)
+    response = req.get(endpoint, params=params)
+
+    if response.status_code != 200:
+        print(f"APIリクエストエラー: {response.status_code}")
+        print(response.text)  # エラーレスポンスの内容を表示
+
     data = response.json()
+    
 
     # レスポンスから必要な情報を抽出してリストに格納
     restaurants = []
-    for entry in data['results']['shop']:
-        restaurant = Restaurant(
-            name=entry['name'],
-            address=entry['address'],
-            access=entry.get('access', ''),
-            business_hours=entry.get('open', ''),
-            thumbnail_image=entry.get('photo', {}).get('pc', {}).get('l', ''),
-        )
+    for entry in data.get('results', {}).get('shop', []):
+        restaurant = {
+            'name': entry.get('name', ''),
+            'address': entry.get('address', ''),
+            'access': entry.get('access', ''),
+            'thumbnail_image': entry.get('photo', {}).get('pc', {}).get('l', ''),
+        }
         restaurants.append(restaurant)
 
     return restaurants
 
 
 
-
-
-
-def search_results(request):
-    user_location = get_user_location(request)
-    restaurants = get_restaurant_data(user_location)
-    paginated_restaurants = paginate_restaurants(request, restaurants)
-
-    return render(request, 'fenrir/search_results.html', {'user_location': user_location, 'restaurants': paginated_restaurants})
-
-
-
 def paginate_restaurants(request, restaurants):
-    # ページネーションを実装
-    # 1ページあたりのアイテム数は適宜調整
-
     paginator = Paginator(restaurants, 10)  # 1ページあたり10アイテム
 
     page = request.GET.get('page')
@@ -102,3 +106,12 @@ def paginate_restaurants(request, restaurants):
 
 
 
+#def search_restaurants(request):
+    # ユーザーの現在地を取得
+    user_location = get_user_location(request)
+
+    # レストランデータを取得
+    restaurants = get_restaurant_data(user_location)
+
+    
+    return render(request, 'fenrir/search_result.html', restaurants)
