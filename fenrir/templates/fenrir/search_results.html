@@ -1,6 +1,6 @@
 <!-- restaurants/templates/restaurants/search_results.html -->
 
-{% extends "base.html" %}
+{% extends "fenrir/base.html" %}
 
 {% block content %}
   <h2>検索結果</h2>
@@ -10,7 +10,7 @@
       <p>{{ restaurant.address }}</p>
       <p>{{ restaurant.access }}</p>
       <img src="{{ restaurant.thumbnail_image }}" alt="{{ restaurant.name }}">
-      <a href="{% url 'restaurants:restaurant_detail' restaurant.id %}">詳細を見る</a>
+      <a href="{% url 'fenrir':restaurant_detail' restaurant.id %}">詳細を見る</a>
     </div>
   {% endfor %}
 

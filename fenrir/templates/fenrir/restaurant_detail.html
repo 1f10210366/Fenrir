@@ -1,0 +1,13 @@
+<!-- restaurants/templates/restaurants/restaurant_detail.html -->
+
+{% extends "fenrir/base.html" %}
+
+{% block content %}
+  <h2>{{ restaurant.name }}</h2>
+  <p>住所: {{ restaurant.address }}</p>
+  <p>営業時間: {{ restaurant.business_hours }}</p>
+  <img src="{{ restaurant.thumbnail_image }}" alt="{{ restaurant.name }}">
+  <!-- その他の詳細情報を表示 -->
+
+  <a href="{% url 'fenrir:search_results' %}">検索結果に戻る</a>
+{% endblock %}
