@@ -1,3 +1,9 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.http import HttpResponse
+from django.views.generic import TemplateView
 
-# Create your views here.
+
+
+class TopView(TemplateView):
+    template_name = "fenrir/top.html"
