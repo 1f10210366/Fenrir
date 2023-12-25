@@ -1,0 +1,13 @@
+<!-- restaurants/templates/restaurants/search_input.html -->
+
+{% extends "fenrir/base.html" %}
+
+{% block content %}
+  <h2>検索条件入力</h2>
+  <form method="GET" action="{% url 'fenrir:search_results' %}">
+    {% csrf_token %}
+    <label for="radius">検索半径（メートル）:</label>
+    <input type="number" name="radius" id="radius" value="500" required>
+    <button type="submit">検索</button>
+  </form>
+{% endblock %}

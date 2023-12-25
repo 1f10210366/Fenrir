@@ -3,5 +3,6 @@ from . import views
 
 app_name = "fenrir"
 urlpatterns = [
-  path("",views.TopView.as_view(),name="top"),
+  path("",views.TopView.as_view(),name="search_input"),
+  path("search_results/", views.SearchResultsView.as_view(), name="search_results"),
 ]

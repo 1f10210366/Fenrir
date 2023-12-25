@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <link rel="stylesheet" type="text/css" href="{% static 'fenrir/css/base.css' %}">
+    <!-- Bootstrap CSS -->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+          
+</head>
+
+<body>
+  <header>
+      <h1>My Restaurant App</h1>
+      <nav>
+          <ul>
+              <li><a href="{% url 'fenrir:search_input' %}">ホーム</a></li>
+              <!-- 他のナビゲーションリンクを追加 -->
+          </ul>
+      </nav>
+  </header>
+
+  <main>
+      {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+      <!-- フッターの内容を追加 -->
+  </footer>
+
+  <!-- ここに共通のJavaScriptファイルやライブラリのリンクを追加 -->
+</body>
+</html>

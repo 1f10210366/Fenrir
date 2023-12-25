@@ -6,4 +6,8 @@ from django.views.generic import TemplateView
 
 
 class TopView(TemplateView):
-    template_name = "fenrir/top.html"
+    template_name = "fenrir/seach_input.html"
+
+
+class SearchResultsView(TemplateView):
+    template_name = "fenrir/seach_input.html"
