@@ -10,8 +10,8 @@
       <p>{{ restaurant.address }}</p>
       <p>{{ restaurant.access }}</p>
       <img src="{{ restaurant.thumbnail_image }}" alt="{{ restaurant.name }}">
-      <a href="{% url 'fenrir':restaurant_detail' restaurant.id %}">詳細を見る</a>
-    </div>
+      <a href="#">詳細を見る</a>
+
   {% endfor %}
 
   <div class="pagination">

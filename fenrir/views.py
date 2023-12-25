@@ -80,6 +80,7 @@ def get_restaurant_data(user_location, radius=500):
     restaurants = []
     for entry in data.get('results', {}).get('shop', []):
         restaurant = {
+            'id': entry.get('id', ''),  # id フィールドを追加
             'name': entry.get('name', ''),
             'address': entry.get('address', ''),
             'access': entry.get('access', ''),
@@ -106,12 +107,3 @@ def paginate_restaurants(request, restaurants):
 
 
 
-#def search_restaurants(request):
-    # ユーザーの現在地を取得
-    user_location = get_user_location(request)
-
-    # レストランデータを取得
-    restaurants = get_restaurant_data(user_location)
-
-    
-    return render(request, 'fenrir/search_result.html', restaurants)
