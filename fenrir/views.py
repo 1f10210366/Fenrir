@@ -10,4 +10,14 @@ class TopView(TemplateView):
 
 
 class SearchResultsView(TemplateView):
-    template_name = "fenrir/seach_input.html"
+    template_name = "fenrir/seach_result.html"
+
+class restaurant_detailView(TemplateView):
+    template_name = "fenrir/restaurant_detail.html"
+
+
+
+# restaurants/views.py
+
+
+
