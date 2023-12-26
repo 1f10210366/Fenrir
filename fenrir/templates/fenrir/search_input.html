@@ -6,8 +6,9 @@
 {% block content %}
 
 <head>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5FPrbleKfp2c3j0Le1Mt6D2xkVKBghow&callback=initMap" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhg8RBbcrfWT_R3E2dISbpqHtSC7LLUwY&callback=initMap" async defer></script>
   <script src="{% static 'fenrir/js/search_input.js' %}"></script>
+
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -21,7 +22,6 @@
     <input type="number" name="radius" id="radius" value="500" required>
     <input type="hidden" id="latitude" name="latitude" value="{% if user_location.latitude %}{{ user_location.latitude }}{% endif %}">
     <input type="hidden" id="longitude" name="longitude" value="{% if user_location.longitude %}{{ user_location.longitude }}{% endif %}">
-    <input id="input-address" type="text">
     <button type="submit">検索</button>
   </form>
 
@@ -31,12 +31,6 @@
 
   <div id="map"></div>
 
-  <script>
-    // ページがロードされたときに initMap 関数を呼び出す
-    document.addEventListener('DOMContentLoaded', function () {
-      initMap();
-    });
-  </script>
 </body>
 
 {% endblock %}

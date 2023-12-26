@@ -1,38 +1,45 @@
 let API_KEY_HOTPEPPER = '7699907c06980421';
+let API_KEY_Google = 'AIzaSyBhg8RBbcrfWT_R3E2dISbpqHtSC7LLUwY';
 let map;
-let currentPosition;
+let currentPosition;  // currentPosition を宣言
 
 function initMap() {
-  // Google Mapを初期化
-  map = new google.maps.Map(document.getElementById('map'), {
-      center: currentPosition,
-      zoom: 15
-  });
+    // Google Mapを初期化
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: currentPosition,
+        zoom: 15
+    });
 
-  // 現在地にマーカーを表示
-  new google.maps.Marker({
-      position: currentPosition,
-      map: map,
-      title: 'Your Location'
-  });
+    // 現在地にマーカーを表示
+    new google.maps.Marker({
+        position: currentPosition,
+        map: map,
+        title: 'Your Location'
+    });
 }
-
 
 function getCurrentLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        document.getElementById('latitude').value = position.coords.latitude;
-        document.getElementById('longitude').value = position.coords.longitude;
-      },
-      function (error) {
-        console.error('位置情報の取得に失敗しました', error);
-      }
-    );
-  } else {
-    console.error('Geolocationがサポートされていません');
-  }
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+                currentPosition = { lat: position.coords.latitude, lng: position.coords.longitude };
+                document.getElementById('latitude').value = position.coords.latitude;
+                document.getElementById('longitude').value = position.coords.longitude;
+                initMap();  // getCurrentLocation の中で位置情報を取得したら initMap を呼び出す
+            },
+            function (error) {
+                console.error('位置情報の取得に失敗しました', error);
+            }
+        );
+    } else {
+        console.error('Geolocationがサポートされていません');
+    }
 }
+
+// ページがロードされたときに getCurrentLocation 関数を呼び出す
+document.addEventListener('DOMContentLoaded', function () {
+    getCurrentLocation();
+});
 
 
 function searchNearbyRestaurants() {
@@ -45,11 +52,6 @@ function searchNearbyRestaurants() {
         .then(displaySearchResults)
         .catch(apiError);
 }
-
-// 現在地の緯度と経度をフォームにセット
-document.getElementById('latitude').value = currentPosition.lat;
-document.getElementById('longitude').value = currentPosition.lng;
-
 
 function displaySearchResults(results) {
     let resultsDiv = document.getElementById('search-results');
@@ -67,4 +69,3 @@ function displaySearchResults(results) {
         resultsDiv.appendChild(shopDiv);
     });
 }
-
