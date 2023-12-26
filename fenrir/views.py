@@ -8,7 +8,7 @@ import requests as req
 from .models import Restaurant
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.shortcuts import get_object_or_404
 
 
 class TopView(TemplateView):
@@ -18,24 +18,33 @@ class SearchResultsView(TemplateView):
     template_name = "fenrir/search_results.html"
 
     def get(self, request, *args, **kwargs):
-        # ユーザーの現在地を取得
-        user_location = get_user_location(request)
+        # クライアントから送信された位置情報を取得
+        user_location = {
+            'latitude': float(request.GET.get('latitude', 35.6895)),
+            'longitude': float(request.GET.get('longitude', 139.6917)),
+        }
+        radius = int(request.GET.get('radius', 500))
 
-        # レストランデータを取得
-        restaurants = get_restaurant_data(user_location)
-
-        # ページネーションを適用
+        restaurants = get_restaurant_data(user_location, radius)
         paginated_restaurants = paginate_restaurants(request, restaurants)
 
-        # テンプレートにデータを渡してレンダリング
-        context = {
-            'restaurants': paginated_restaurants,
-        }
-        return render(request, self.template_name, context)
+        return render(request, 'fenrir/search_results.html', {'user_location': user_location, 'restaurants': paginated_restaurants})
+            
 
 
 class RestaurantDetailView(TemplateView):
     template_name = "fenrir/restaurant_detail.html"
+
+
+    model = Restaurant
+    template_name = "fenrir/restaurant_detail.html"
+    context_object_name = "restaurant"
+
+    def get_object(self, queryset=None):
+        # URL パターンで指定された restaurant_id を取得
+        restaurant_id = self.kwargs.get('restaurant_id')
+        # データベースから Restaurant モデルのインスタンスを取得
+        return get_object_or_404(Restaurant, id=restaurant_id)
 
 
 
