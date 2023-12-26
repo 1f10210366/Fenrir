@@ -16,17 +16,23 @@
 
 <body>
   <!-- search_input.html -->
+  <button onclick="getCurrentLocation()">現在地を取得</button><br>
+
+  
+  <label>検索したい場所の入力：<input id="input-address" type="text"></label>
+  <button onclick="geocodeAndShowLocation()">登録</button><br>
+
+
   <form method="GET" action="{% url 'fenrir:search_results' %}">
     {% csrf_token %}
-    <label for="radius">検索半径（メートル）:</label>
+    <label for="radius">検索半径：</label>
     <input type="number" name="radius" id="radius" value="500" required>
     <input type="hidden" id="latitude" name="latitude" value="{% if user_location.latitude %}{{ user_location.latitude }}{% endif %}">
     <input type="hidden" id="longitude" name="longitude" value="{% if user_location.longitude %}{{ user_location.longitude }}{% endif %}">
     <button type="submit">検索</button>
   </form>
 
-  <button onclick="getCurrentLocation()">現在地を取得</button>
-
+  
   
 
   <div id="map"></div>

@@ -23,7 +23,7 @@ class SearchResultsView(TemplateView):
             'latitude': float(request.GET.get('latitude', 35.6895)),
             'longitude': float(request.GET.get('longitude', 139.6917)),
         }
-        radius = int(request.GET.get('radius'))
+        radius = int(request.GET.get('radius',500))
 
         restaurants = get_restaurant_data(user_location, radius)
         paginated_restaurants = paginate_restaurants(request, restaurants)
