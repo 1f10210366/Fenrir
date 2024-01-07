@@ -3,6 +3,7 @@
 from django.db import models
 
 class Restaurant(models.Model):
+    id = models.CharField(max_length=255, primary_key=True)
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     access = models.TextField(blank=True, null=True)

@@ -4,16 +4,21 @@
 
 {% block content %}
   <h2>検索結果</h2>
-  {% for restaurant in restaurants %}
-    <div class="restaurant-card">
-      <h3>{{ restaurant.name }}</h3>
-      <p>{{ restaurant.address }}</p>
-      <p>{{ restaurant.access }}</p>
-      <img src="{{ restaurant.thumbnail_image }}" alt="{{ restaurant.name }}">
-      <a href="{% url 'fenrir:restaurant_detail' restaurant.id %}">詳細を見る</a>
 
+  <!-- search_results.html -->
+
+  {% for restaurant in restaurants %}
+    <!-- レストランの表示内容 -->
+    <div class="restaurant-card">
+        <h3>{{ restaurant.name }}</h3>
+        <p>{{ restaurant.address }}</p>
+        <p>{{ restaurant.access }}</p>
+        <img src="{{ restaurant.thumbnail_image }}" alt="{{ restaurant.name }}">
+        <a href="{% url 'fenrir:restaurant_detail' restaurant.id %}">詳細を見る</a>
+    </div>
   {% endfor %}
 
+  <!-- ページネーションの追加 -->
   <div class="pagination">
     <span class="step-links">
         {% if restaurants.has_previous %}
@@ -22,7 +27,7 @@
         {% endif %}
 
         <span class="current">
-            Page {{ restaurants.number }} of {{ restaurants.paginator.num_pages }}.
+             {{ restaurants.number }} / {{ restaurants.paginator.num_pages }}.
         </span>
 
         {% if restaurants.has_next %}
@@ -31,4 +36,5 @@
         {% endif %}
     </span>
   </div>
+  
 {% endblock %}
