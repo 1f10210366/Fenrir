@@ -1,11 +1,31 @@
-<!-- restaurants/templates/restaurants/search_results.html -->
+<!-- restaurants/templates/fenrir/search_results.html -->
 
 {% extends "fenrir/base.html" %}
 
 {% block content %}
   <h2>検索結果</h2>
 
-  <!-- search_results.html -->
+  <!-- ページネーションの追加 -->
+  <div class="pagination">
+    <span class="step-links">
+        {% if paginated_restaurants.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ paginated_restaurants.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+             {{ paginated_restaurants.number }} / {{paginated_restaurants.paginator.num_pages }}
+        </span>
+
+        {% if paginated_restaurants.has_next %}
+            <a href="?page={{ paginated_restaurants.next_page_number }}">next</a>
+            <a href="?page={{ paginated_restaurants.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
+
+
+
 
   {% for restaurant in restaurants %}
     <!-- レストランの表示内容 -->
@@ -18,23 +38,5 @@
     </div>
   {% endfor %}
 
-  <!-- ページネーションの追加 -->
-  <div class="pagination">
-    <span class="step-links">
-        {% if restaurants.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ restaurants.previous_page_number }}">previous</a>
-        {% endif %}
 
-        <span class="current">
-             {{ restaurants.number }} / {{ restaurants.paginator.num_pages }}.
-        </span>
-
-        {% if restaurants.has_next %}
-            <a href="?page={{ restaurants.next_page_number }}">next</a>
-            <a href="?page={{ restaurants.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-  </div>
-  
 {% endblock %}
