@@ -7,6 +7,9 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 class TopView(TemplateView):
     template_name = "fenrir/search_input.html"
 
+class questionView(TemplateView):
+    template_name = "fenrir/question.html"
+
 class SearchResultsView(ListView):
     model = Restaurant
     template_name = "fenrir/search_results.html"
