@@ -20,7 +20,8 @@ class SearchResultsView(ListView):
             'longitude': float(self.request.GET.get('longitude', 139.6917)),
         }
         radius = int(self.request.GET.get('radius', 500))
-        all_restaurants = self.get_all_restaurants(user_location, radius, per_page=10)
+        search_range = self.get_search_range(radius)
+        all_restaurants = self.get_all_restaurants(user_location, search_range, per_page=10)
 
         if not all_restaurants:
             return []

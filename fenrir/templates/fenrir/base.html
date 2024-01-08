@@ -5,12 +5,30 @@
 
 <head>
     <meta charset='UTF-8'>
-    <link rel="stylesheet" type="text/css" href="{% static 'fenrir/css/base.css' %}">
-    <!-- Bootstrap CSS -->
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'fenrir/css/base.css' %}">
+    <style>
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-          
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li:last-child {
+            margin-right: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,7 +37,8 @@
       <nav>
           <ul>
               <li><a href="{% url 'fenrir:search_input' %}">ホーム</a></li>
-              <!-- 他のナビゲーションリンクを追加 -->
+              <li><a href="#">使い方</a></li>
+              <li><a href="#">問い合わせ</a></li>
           </ul>
       </nav>
   </header>
