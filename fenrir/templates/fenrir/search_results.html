@@ -3,26 +3,34 @@
 {% extends "fenrir/base.html" %}
 
 {% block content %}
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
   <h2>検索結果</h2>
 
   <!-- ページネーションの追加 -->
-  <div class="pagination">
-    <span class="step-links">
-        {% if restaurants.has_previous %}
-            <a href="?page=1&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}">最初</a>
-            <a href="?page={{ restaurants.previous_page_number }}&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}">前へ</a>
+  <div class="pagination is-centered">
+    <a class="pagination-previous" {% if restaurants.has_previous %}href="?page={{ restaurants.previous_page_number }}&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}"{% endif %}>前へ</a>
+    <a class="pagination-next" {% if restaurants.has_next %}href="?page={{ restaurants.next_page_number }}&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}"{% endif %}>次へ</a>
+    <ul class="pagination-list">
+      {% if restaurants.has_previous %}
+        {% if restaurants.previous_page_number != 1 %}
+          <li><a class="pagination-link" href="?page=1&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}">1</a></li>
+          <li><span class="pagination-ellipsis">&hellip;</span></li>
         {% endif %}
-
-        <span class="current">
-            {{ restaurants.number }}ページ / 全{{ restaurants.paginator.num_pages }}ページ
-        </span>
-
-        {% if restaurants.has_next %}
-            <a href="?page={{ restaurants.next_page_number }}&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}">次へ</a>
-            <a href="?page={{ restaurants.paginator.num_pages }}&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}">最後</a>
+        <li><a class="pagination-link" href="?page={{ restaurants.previous_page_number }}&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}">{{ restaurants.previous_page_number }}</a></li>
+      {% endif %}
+      <li><a class="pagination-link is-current" href="?page={{ restaurants.number }}&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}">{{ restaurants.number }}</a></li>
+      {% if restaurants.has_next %}
+        <li><a class="pagination-link" href="?page={{ restaurants.next_page_number }}&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}">{{ restaurants.next_page_number }}</a></li>
+        {% if restaurants.next_page_number != restaurants.paginator.num_pages %}
+          <li><span class="pagination-ellipsis">&hellip;</span></li>
+          <li><a class="pagination-link" href="?page={{ restaurants.paginator.num_pages }}&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}">{{ restaurants.paginator.num_pages }}</a></li>
         {% endif %}
-    </span>
-</div>
+      {% endif %}
+    </ul>
+  </div>
+  
 
 
   {% for restaurant in restaurants %}

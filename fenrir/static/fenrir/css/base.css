@@ -1,13 +1,13 @@
-#map {
-  height: 400px; /* 適切なサイズに調整 */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-
-
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  background-color: #343a40;
+  color: white;
+  padding: 10px 20px;
 }
 
 nav ul {
@@ -23,4 +23,15 @@ nav ul li {
 
 nav ul li:last-child {
   margin-right: 0;
+}
+
+main {
+  padding: 20px;
+}
+
+footer {
+  background-color: #343a40;
+  color: white;
+  text-align: center;
+  padding: 10px;
 }
