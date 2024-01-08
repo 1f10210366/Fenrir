@@ -1,11 +1,17 @@
 <!-- restaurants/templates/restaurants/restaurant_detail.html -->
-
 {% extends "fenrir/base.html" %}
+{% load static %}
 
 {% block content %}
+<head>
+  <meta charset='UTF-8'>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static 'fenrir/css/details.css' %}">
+</head>
+
   <h2>{{ restaurant.name }}</h2>
-  <p>住所: {{ restaurant.address }}</p>
-  <p>営業時間: {{ restaurant.business_hours }}</p>
+  <h3> 住所</h3><p> {{ restaurant.address }}</p>
+  <h3>営業時間</h3><p>{{ restaurant.business_hours }}</p>
   <img src="{{ restaurant.thumbnail_image }}" alt="{{ restaurant.name }}">
   <!-- その他の詳細情報を表示 -->
 
