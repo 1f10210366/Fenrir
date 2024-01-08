@@ -41,6 +41,13 @@ class SearchResultsView(ListView):
             restaurants = paginator.page(paginator.num_pages)
 
         context['restaurants'] = restaurants
+
+         # ユーザの位置情報をテンプレートのコンテキストに渡す
+        context['user_location'] = {
+            'latitude': self.request.GET.get('latitude', 35.6895),
+            'longitude': self.request.GET.get('longitude', 139.6917),
+        }
+
         return context
     
 
@@ -89,7 +96,7 @@ class SearchResultsView(ListView):
 
                 restaurant = Restaurant(**restaurant_data)
                 restaurant.save()
-                all_restaurants.append(restaurant)
+                all_restaurants.append(restaurant)  # 新しいページのデータを追加
 
             page += 1
 
@@ -122,12 +129,4 @@ class RestaurantDetailView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['restaurant'] = self.get_object()
         return context
-
-def get_user_location(request):
-    user_location = {
-        'latitude': 35.6895,
-        'longitude': 139.6917,
-    }
-    return user_location
-
 

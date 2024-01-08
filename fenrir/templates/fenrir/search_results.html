@@ -8,22 +8,21 @@
   <!-- ページネーションの追加 -->
   <div class="pagination">
     <span class="step-links">
-      {% if restaurants.has_previous %}
-        <a href="?page=1">first</a>
-        <a href="?page={{ restaurants.previous_page_number }}">previous</a>
-      {% endif %}
+        {% if restaurants.has_previous %}
+            <a href="?page=1&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}">最初</a>
+            <a href="?page={{ restaurants.previous_page_number }}&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}">前へ</a>
+        {% endif %}
 
-      <span class="current">
-        Page {{ restaurants.number }} of {{ restaurants.paginator.num_pages }}.
-      </span>
+        <span class="current">
+            {{ restaurants.number }}ページ / 全{{ restaurants.paginator.num_pages }}ページ
+        </span>
 
-      {% if restaurants.has_next %}
-        <a href="?page={{ restaurants.next_page_number }}">next</a>
-        <a href="?page={{ restaurants.paginator.num_pages }}">last</a>
-      {% endif %}
+        {% if restaurants.has_next %}
+            <a href="?page={{ restaurants.next_page_number }}&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}">次へ</a>
+            <a href="?page={{ restaurants.paginator.num_pages }}&latitude={{ user_location.latitude }}&longitude={{ user_location.longitude }}">最後</a>
+        {% endif %}
     </span>
-  </div>
-
+</div>
 
 
   {% for restaurant in restaurants %}
