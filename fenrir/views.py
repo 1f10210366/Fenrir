@@ -1,9 +1,9 @@
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import TemplateView, ListView
 from django.shortcuts import get_object_or_404
 from fenrir.models import Restaurant
 import requests as req
 
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 class TopView(TemplateView):
     template_name = "fenrir/search_input.html"
 
@@ -13,7 +13,6 @@ class SearchResultsView(ListView):
     context_object_name = "restaurants"
     paginate_by = 10
 
-
     def get_queryset(self):
         user_location = {
             'latitude': float(self.request.GET.get('latitude', 35.6895)),
@@ -21,28 +20,29 @@ class SearchResultsView(ListView):
         }
         radius = int(self.request.GET.get('radius', 500))
         search_range = self.get_search_range(radius)
-        all_restaurants = self.get_all_restaurants(user_location, search_range, per_page=10)
+        all_restaurants = self.get_all_restaurants(user_location, search_range)
 
         if not all_restaurants:
             return []
 
-
-
-        # ページネーションを適用
-        page = self.request.GET.get('page', 1)
-        paginated_restaurants = self.paginate_restaurants(all_restaurants, current_page=page, per_page=10)
-        return paginated_restaurants
-
-    
+        return all_restaurants
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user_location'] = {
-            'latitude': float(self.request.GET.get('latitude', 35.6895)),
-            'longitude': float(self.request.GET.get('longitude', 139.6917)),
-        }
-        context['search_range'] = self.get_search_range(int(self.request.GET.get('radius', 500)))
+        # ページネーションの処理を追加
+        paginator = Paginator(self.object_list, self.paginate_by)
+        page = self.request.GET.get('page', 1)
+
+        try:
+            restaurants = paginator.page(page)
+        except PageNotAnInteger:
+            restaurants = paginator.page(1)
+        except EmptyPage:
+            restaurants = paginator.page(paginator.num_pages)
+
+        context['restaurants'] = restaurants
         return context
+    
 
     def get_all_restaurants(self, user_location, radius, per_page=10):
         api_key = '7699907c06980421'
@@ -93,7 +93,6 @@ class SearchResultsView(ListView):
 
             page += 1
 
-        
         return all_restaurants
 
     def get_search_range(self, radius):
@@ -107,22 +106,6 @@ class SearchResultsView(ListView):
             return 4
         else:
             return 5
-        
-    
-
-    def paginate_restaurants(self, restaurants, current_page=1, per_page=10):
-        paginator = Paginator(restaurants, per_page)
-
-        try:
-            paginated_restaurants = paginator.get_page(current_page)
-        except PageNotAnInteger:
-            paginated_restaurants = paginator.page(1)
-        except EmptyPage:
-            paginated_restaurants = paginator.get_page(paginator.num_pages)
-
-        return paginated_restaurants
-    
-
 
 class RestaurantDetailView(TemplateView):
     template_name = "fenrir/restaurant_detail.html"
@@ -139,9 +122,6 @@ class RestaurantDetailView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['restaurant'] = self.get_object()
         return context
-    
-
-
 
 def get_user_location(request):
     user_location = {
@@ -149,3 +129,5 @@ def get_user_location(request):
         'longitude': 139.6917,
     }
     return user_location
+
+
