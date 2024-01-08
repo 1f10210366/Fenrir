@@ -62,13 +62,13 @@
             <nav>
                 <ul class="nav">
                     <li class="nav-item">
-                        <a  href="{% url 'fenrir:search_input' %}">ホーム</a>
+                        <a  href="{% url 'fenrir:search_input' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#">使い方</a>
+                        <a href="{% url 'fenrir:use' %}">How to use</a>
                     </li>
                     <li class="nav-item">
-                        <a  href="question">問い合わせ</a>
+                        <a  href="{% url 'fenrir:question' %}">Enquiry</a>
                     </li>
                 </ul>
             </nav>

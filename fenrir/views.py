@@ -10,6 +10,9 @@ class TopView(TemplateView):
 class questionView(TemplateView):
     template_name = "fenrir/question.html"
 
+class useView(TemplateView):
+    template_name = "fenrir/use.html"
+
 class SearchResultsView(ListView):
     model = Restaurant
     template_name = "fenrir/search_results.html"

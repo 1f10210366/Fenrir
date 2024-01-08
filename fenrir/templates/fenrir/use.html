@@ -1,0 +1,65 @@
+<!-- HTML (how_to_use.html) -->
+
+{% extends "fenrir/base.html" %}
+{% load static %}
+
+{% block content %}
+<head>
+  <meta charset='UTF-8'>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <style>
+    body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #343a40;
+    color: white;
+    padding: 10px 20px;
+}
+
+main {
+    padding: 20px;
+}
+
+.instruction-card {
+    margin-bottom: 30px;
+}
+
+.instruction-card img {
+    max-width: 100%;
+    height: auto;
+}
+
+.instruction-card p {
+    margin-top: 10px;
+}
+  </style>
+</head>
+
+<main class="container">
+  <h2>How to Use</h2>
+
+  <section class="instruction-card">
+    <img src="..\static\fenrir\ping\image1.png" alt="Step 1">
+    <p>Step 1: 検索したい場所を入力！そのあと登録ボタンをクリック！検索場所周辺の地図が表示されます！</p>
+  </section>
+
+  <section class="instruction-card">
+    <img src="..\static\fenrir\ping\image2.png" alt="Step 2">
+    <p>Step 2:検索半径を入力！自分のいる場所から300ｍ、500ｍ、1000ｍ、2000ｍ、の500ｍ刻みで検索半径を指定できます！</p>
+  </section>
+
+  <section class="instruction-card">
+    <img src="..\static\fenrir\ping\image3.png" alt="Step 3">
+    <p>Step 3:現在地から検索半径以内にある飲食店が表示されます！気になる飲食店は詳細情報を確認してみましょう！</p>
+  </section>
+
+  <section class="instruction-card">
+    <img src="..\static\fenrir\ping\image4.png" alt="Step 4">
+    <p>Step 4:営業時間等の詳細情報が確認出来たらお店へGO！</p>
+  </section>
+</main>
+{% endblock %}
